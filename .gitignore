@@ -1,6 +1,9 @@
+#public key files
+**.pub
 # Local .terraform directories
 **/.terraform/*
-
+# .json files
+**.json
 # .tfstate files
 *.tfstate
 *.tfstate.*
