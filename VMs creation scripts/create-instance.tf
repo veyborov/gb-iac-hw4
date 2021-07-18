@@ -5,7 +5,7 @@ resource "google_compute_instance" "default" {
 
   boot_disk {
     initialize_params {
-      image = "centos-cloud/centos8"
+      image = "centos-cloud/centos-8"
     }
   }
 
@@ -17,7 +17,7 @@ resource "google_compute_instance" "default" {
     }
   }
     metadata = {
-	  ssh-keys = "voy:${file(id_rsa.pub)}"
+	  ssh-keys = "voy:${file("id_rsa.pub")}"
 	}  
     metadata_startup_script = "" 
 
@@ -32,7 +32,7 @@ resource "google_compute_instance" "default1" {
 
   boot_disk {
     initialize_params {
-      image = "centos-cloud/centos8"
+      image = "centos-cloud/centos-8"
     }
   }
 
@@ -44,7 +44,7 @@ resource "google_compute_instance" "default1" {
     }
   }
     metadata = {
-	  ssh-keys = "voy:${file(id_rsa.pub)}"
+	  ssh-keys = "voy:${file("id_rsa.pub")}"
 	}  
     metadata_startup_script = "" 
 
@@ -58,7 +58,7 @@ resource "google_compute_instance" "default2" {
 
   boot_disk {
     initialize_params {
-      image = "centos-cloud/centos8"
+      image = "centos-cloud/centos-8"
     }
   }
 
@@ -70,7 +70,7 @@ resource "google_compute_instance" "default2" {
     }
   }
     metadata = {
-	  ssh-keys = "voy:${file(id_rsa.pub)}"
+	  ssh-keys = "voy:${file("id_rsa.pub")}"
 	}  
     metadata_startup_script = "" 
 
@@ -78,20 +78,26 @@ resource "google_compute_instance" "default2" {
     tags = ["http-server"]
 }
 
-resource "google_compute_firewall" "http-server" {
-  name    = "default-allow-http-gitlab"
-  network = "default"
+#resource "google_compute_firewall" "http-server" {
+#  name    = "default-allow-http-gitlab"
+#  network = "default"
+#
+#  allow {
+#   protocol = "tcp"
+#    ports    = ["80"]
+#  }
+#
+#  // Allow traffic from everywhere to instances with an http-server tag
+#  source_ranges = ["0.0.0.0/0"]
+#  target_tags   = ["http-server"]
+#}
 
-  allow {
-    protocol = "tcp"
-    ports    = ["80"]
-  }
-
-  // Allow traffic from everywhere to instances with an http-server tag
-  source_ranges = ["0.0.0.0/0"]
-  target_tags   = ["http-server"]
-}
-
-output "ip" {
+output "ip_of_gb-iac-hw4-ansible-host" {
   value = "${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}"
+}
+output "ip_of_gb-iac-hw4-test-host1" {
+  value = "${google_compute_instance.default1.network_interface.0.access_config.0.nat_ip}"
+}
+output "ip_of_gb-iac-hw4-test-host2" {
+  value = "${google_compute_instance.default2.network_interface.0.access_config.0.nat_ip}"
 }
